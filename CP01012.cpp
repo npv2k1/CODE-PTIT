@@ -1,21 +1,32 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
+typedef unsigned long long int ulli;
 using namespace std;
-bool isPitago(int a,int b,int c){
 
-  if(a*a==b*b+c*c || b*b==a*a+c*c || c*c ==a*a+b*b){
-    return 1;
-  }
-  return 0;
-}
-void findPitago(vector<int> a,int n){
-  for (int i = 0; i < n-2; i++)
+// Hàm kiểm tra
+bool isTriplet(ulli arr[], int n)
+{
+  // Tính bình phương mọi phần tử
+  for (ulli i = 0; i < n; i++)
+    arr[i] = arr[i] * arr[i];
+
+  // Xắp xếp phần tử theo thứ tự tăng dần
+  sort(arr, arr + n);
+
+
+  for (int i = n - 1; i >= 2; i--)
   {
-    
+
+    ulli l = 0;
+    ulli r = i - 1;
+    while (l < r)
+    {
+      if (arr[l] + arr[r] == arr[i])
+        return true;
+      (arr[l] + arr[r] < arr[i]) ? l++ : r--;
+    }
   }
-  cout<<"NO";
-  return;
+  return false;
 }
 int main()
 {
@@ -25,15 +36,25 @@ int main()
   {
     int n;
     cin >> n;
-    vector<int> a;
-    for (int i = 0; i < n; i++)
+    ulli *a = new ulli[n]{0};
+    for (int i = 0; i < n; ++i)
     {
-      int tmp;
-      cin >> tmp;
-      a.push_back(tmp);
+      cin >> a[i];
     }
-    findPitago(a,n);
-    cout<<endl;
+    if (isTriplet(a, n))
+    {
+      cout << "YES";
+    }
+    else
+    {
+      cout << "NO";
+    }
+    cout << endl;
   }
-  return 0;
 }
+/**
+ * https://www.geeksforgeeks.org/find-pythagorean-triplet-in-an-unsorted-array/
+ * https://www.geeksforgeeks.org/given-an-array-a-and-a-number-x-check-for-pair-in-a-with-sum-as-x/
+ * Bài này cần thay đổi phạm vi biến thành ulli
+ * O(n2)
+*/
